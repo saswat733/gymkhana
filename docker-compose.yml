@@ -1,0 +1,32 @@
+# Local production-like stack. Copy backend/.env.example to backend/.env first.
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gymkhana
+      MYSQL_USER: gymkhana
+      MYSQL_PASSWORD: gymkhana
+    ports:
+      - "3306:3306"
+    volumes:
+      - gymkhana_mysql:/var/lib/mysql
+
+  api:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: mysql
+      DB_DIALECT: mysql
+      DB_PORT: 3306
+      DB_NAME: gymkhana
+      DB_USER: gymkhana
+      DB_PASSWORD: gymkhana
+    depends_on:
+      - mysql
+
+volumes:
+  gymkhana_mysql:
