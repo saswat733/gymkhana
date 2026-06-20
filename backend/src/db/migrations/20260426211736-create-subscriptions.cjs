@@ -27,7 +27,7 @@ module.exports = {
       starts_at: { type: Sequelize.DATEONLY, allowNull: false },
       ends_at: { type: Sequelize.DATEONLY, allowNull: false },
       status: { type: Sequelize.STRING(30), allowNull: false, defaultValue: 'active' },
-      auto_renew: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: 0 },
+      auto_renew: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
       cancelled_at: { type: Sequelize.DATE, allowNull: true },
       created_at: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
       updated_at: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
