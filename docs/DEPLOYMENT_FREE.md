@@ -93,8 +93,8 @@ Neon free tier: ~0.5 GB storage, enough for pilot gyms.
 | Name | `gymkhana-api` |
 | Root Directory | `backend` |
 | Runtime | Node |
-| Build Command | `npm ci` |
-| Start Command | `npm run db:migrate && npm start` |
+| Build Command | `npm ci && npm run db:migrate` |
+| Start Command | `npm start` |
 | Instance Type | **Free** |
 
 4. **Environment Variables** — add all of these:

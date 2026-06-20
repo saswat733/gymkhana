@@ -11,11 +11,11 @@
     "lint": "eslint \"src/**/*.js\"",
     "test": "set NODE_ENV=test&& set DOTENV_PATH=.env.test&& node --test tests\\\\*.test.js",
     "db:create": "node src/db/createDatabase.js",
-    "db:migrate": "sequelize-cli db:migrate",
-    "db:migrate:undo": "sequelize-cli db:migrate:undo",
-    "db:seed": "sequelize-cli db:seed:all",
-    "db:seed:undo": "sequelize-cli db:seed:undo:all",
-    "db:reset": "sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all"
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:seed:undo": "npx sequelize-cli db:seed:undo:all",
+    "db:reset": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -35,13 +35,13 @@
     "pg-hstore": "^2.3.4",
     "razorpay": "^2.9.6",
     "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2",
     "uuid": "^10.0.0",
     "winston": "^3.14.2"
   },
   "devDependencies": {
     "eslint": "^9.10.0",
     "nodemon": "^3.1.4",
-    "sequelize-cli": "^6.6.2",
     "supertest": "^7.2.2"
   },
   "engines": {

@@ -7,6 +7,9 @@ export const sequelize = new Sequelize(env.db.name, env.db.user, env.db.password
   port: env.db.port,
   dialect: env.db.dialect,
   logging: env.db.logging ? (msg) => logger.debug(msg) : false,
+  dialectOptions: env.db.ssl
+    ? { ssl: { require: true, rejectUnauthorized: false } }
+    : {},
   pool: {
     max: 10,
     min: 0,

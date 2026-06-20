@@ -25,7 +25,7 @@ module.exports = {
       emergency_contact_phone: { type: Sequelize.STRING(20), allowNull: true },
       joined_at: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
       notes: { type: Sequelize.TEXT, allowNull: true },
-      is_active: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: 1 },
+      is_active: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
       created_at: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
       updated_at: { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') },
     });

@@ -45,19 +45,45 @@ const bool = (key, fallback) => {
   return v === 'true' || v === '1';
 };
 
+/** Neon / Render often provide DATABASE_URL instead of separate DB_* vars. */
+const parseDatabaseUrl = () => {
+  const raw = process.env.DATABASE_URL?.trim();
+  if (!raw) return null;
+  try {
+    const u = new URL(raw);
+    const dialect = u.protocol.replace(':', '') === 'postgresql' || u.protocol.replace(':', '') === 'postgres'
+      ? 'postgres'
+      : u.protocol.replace(':', '');
+    return {
+      dialect,
+      host: u.hostname,
+      port: Number(u.port) || (dialect === 'postgres' ? 5432 : 3306),
+      name: u.pathname.replace(/^\//, ''),
+      user: decodeURIComponent(u.username),
+      password: decodeURIComponent(u.password),
+      ssl: u.searchParams.get('sslmode') === 'require' || bool('DB_SSL', false),
+    };
+  } catch {
+    throw new Error('[env] DATABASE_URL is invalid');
+  }
+};
+
+const dbFromUrl = parseDatabaseUrl();
+
 export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   port: num('PORT', 4000),
   apiPrefix: process.env.API_PREFIX ?? '/api/v1',
 
   db: {
-    dialect: process.env.DB_DIALECT ?? 'postgres',
-    host: process.env.DB_HOST ?? 'localhost',
-    port: num('DB_PORT', 5432),
-    name: required('DB_NAME'),
-    user: required('DB_USER'),
-    password: process.env.DB_PASSWORD ?? '',
+    dialect: dbFromUrl?.dialect ?? process.env.DB_DIALECT ?? 'postgres',
+    host: dbFromUrl?.host ?? process.env.DB_HOST ?? 'localhost',
+    port: dbFromUrl?.port ?? num('DB_PORT', dbFromUrl?.dialect === 'mysql' ? 3306 : 5432),
+    name: dbFromUrl?.name ?? required('DB_NAME'),
+    user: dbFromUrl?.user ?? required('DB_USER'),
+    password: dbFromUrl?.password ?? process.env.DB_PASSWORD ?? '',
     logging: bool('DB_LOGGING', false),
+    ssl: dbFromUrl?.ssl ?? bool('DB_SSL', false),
   },
 
   jwt: {
